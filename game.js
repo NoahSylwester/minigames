@@ -1,27 +1,125 @@
+// fruit catcher game
+
+// define canvas
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
-console.log(canvas.width);
+// build an array of possible fruits
+var possibleFruits = document.querySelectorAll('.fruit');
 
+// set canvas dimensions
 canvas.width = 500;
 canvas.height = 500;
 
+// establish keyDirection variable to store user input
+var keyDirection = "";
+var isJump = false;
+
+// define player sprite object
+var playerSprite = {
+  x: 250,
+  y: 479,
+  dy: 0,
+  img: document.querySelector('.player-sprite'),
+  draw: function() {
+    // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+    if (keyDirection === "ArrowRight") {
+      this.x += 5;
+    };
+    if (keyDirection === "ArrowLeft") {
+      this.x -= 5;
+    };
+    if (isJump === true && this.y === 479) {
+      this.dy = 10;
+    };
+    this.y -= this.dy;
+    if (this.y > 479) {
+      this.y = 479;
+    }
+    if (this.y < 479) {
+      this.dy -= 1;
+    }
+
+    c.drawImage(this.img, 20, 0, 25, 100, this.x, this.y, 25, 100);
+  },
+  update: function() {
+
+  }
+};
+
+// define fruit constructor function
 function Fruit(x, y, spd) {
+  // set fruit stats
   this.x = x;
   this.y = y;
   this.spd = spd;
+  this.img = possibleFruits[Math.floor(Math.random() * possibleFruits.length)];
 
+  // draw img
   this.draw = function() {
-
+    c.drawImage(this.img, this.x, this.y, 20, 20);
   };
 
+  // update stats
   this.update = function() {
+    // update position
+    this.y += this.spd;
 
+    // delete fruit when it hits ground
+    if (this.y > 500) {
+      fruitsArray.splice(fruitsArray[this], 1);
+    }
+
+    // redraw
+    this.draw();
   };
 }
 
+function generateFruit() {
+  // determine frequency of fruit appearance
+  if (Math.random() > .95) {
+    // determine fruit stats, include in array
+    fruitsArray.push(new Fruit((Math.random() * 480),5,2));
+  }
+  // update fruits in array
+  for (let i = 0; i < fruitsArray.length; i++) {
+    fruitsArray[i].update();
+  }
+}
 
+var fruitsArray = [];
+
+// interactivity
+document.addEventListener("keydown", function(event) {
+  if (event.key === "ArrowRight" ||
+      event.key === "ArrowLeft"){
+    keyDirection = event.key;
+  }
+  if (event.key === "ArrowUp") {
+    isJump = true;
+  }
+});
+
+document.addEventListener("keyup", function(event) {
+  if (event.key === "ArrowRight" && keyDirection === "ArrowRight" ||
+      event.key === "ArrowLeft" && keyDirection === "ArrowLeft") {
+    keyDirection = "";
+  }
+  if (event.key === "ArrowUp" && isJump === true) {
+    isJump = false;
+  }
+});
+
+// define animation function
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0,0,innerWidth,innerHeight);
+  
+  // fruit.update();
+  generateFruit();
+  playerSprite.draw();
 }
+
+// call functions
+animate();
+playerSprite.draw();
