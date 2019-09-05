@@ -5,6 +5,8 @@ var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
 var score = 0;
+var timeRemaining = 30;
+var fruitAppearanceRate = .95; // fruit appears (100 - fruitAppearanceRate) percent of frames
 
 // build an array of possible fruits
 var possibleFruits = document.querySelectorAll('.fruit');
@@ -90,7 +92,7 @@ function Fruit(x, y, spd) {
 
 function generateFruit() {
   // determine frequency of fruit appearance
-  if (Math.random() > .95) {
+  if (Math.random() > fruitAppearanceRate) {
     // determine fruit stats, include in array
     fruitsArray.push(new Fruit((Math.random() * 480),5,2));
   }
@@ -131,6 +133,11 @@ function animate() {
   playerSprite.draw();
 }
 
+// set timer
+var timer = setInterval(function() {
+  timeRemaining -= 1;
+  document.getElementById('timer').textContent = `Time remaining: ${timeRemaining}`;
+}, 1000);
+
 // call functions
 animate();
-playerSprite.draw();
