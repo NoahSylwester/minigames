@@ -4,6 +4,8 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
+var score = 0;
+
 // build an array of possible fruits
 var possibleFruits = document.querySelectorAll('.fruit');
 
@@ -23,10 +25,12 @@ var playerSprite = {
   img: document.querySelector('.player-sprite'),
   draw: function() {
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-    if (keyDirection === "ArrowRight") {
+
+    // move from user input
+    if (keyDirection === "ArrowRight" && this.x < canvas.width - 30) {
       this.x += 5;
     };
-    if (keyDirection === "ArrowLeft") {
+    if (keyDirection === "ArrowLeft" && this.x > 0) {
       this.x -= 5;
     };
     if (isJump === true && this.y === 479) {
@@ -67,6 +71,15 @@ function Fruit(x, y, spd) {
 
     // delete fruit when it hits ground
     if (this.y > 500) {
+      fruitsArray.splice(fruitsArray[this], 1);
+    }
+    // if player catches fruit
+    if (this.y > playerSprite.y - 20 &&
+        this.y < playerSprite.y + 20 &&
+        this.x < playerSprite.x + 20 &&
+        this.x > playerSprite.x - 10) {
+      score += 1;
+      document.getElementById('scoreboard').textContent = `Score: ${score}`;
       fruitsArray.splice(fruitsArray[this], 1);
     }
 
@@ -114,8 +127,6 @@ document.addEventListener("keyup", function(event) {
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0,0,innerWidth,innerHeight);
-  
-  // fruit.update();
   generateFruit();
   playerSprite.draw();
 }
