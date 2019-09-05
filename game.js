@@ -76,10 +76,10 @@ function Fruit(x, y, spd) {
       fruitsArray.splice(fruitsArray[this], 1);
     }
     // if player catches fruit
-    if (this.y > playerSprite.y - 20 &&
-        this.y < playerSprite.y + 20 &&
-        this.x < playerSprite.x + 20 &&
-        this.x > playerSprite.x - 10) {
+    else if (this.y > playerSprite.y - 20 &&
+            this.y < playerSprite.y + 20 &&
+            this.x < playerSprite.x + 20 &&
+            this.x > playerSprite.x - 10) {
       score += 1;
       document.getElementById('scoreboard').textContent = `Score: ${score}`;
       fruitsArray.splice(fruitsArray[this], 1);
