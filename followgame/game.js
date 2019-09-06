@@ -20,8 +20,8 @@ var petSprite = {
   // initialize random stats
   x: Math.random() * 500,
   y: Math.random() * 500,
-  dx: (Math.random() - 0.5) * 1,
-  dy: (Math.random() - 0.5) * 1,
+  dx: 0,
+  dy: 0,
   counter: 0,
   frame: 0,
   animationRate: 5,
@@ -55,36 +55,44 @@ var petSprite = {
     this.dy += (Math.random() - 0.5)/2;
 
     // update position from velocities
-    this.x += this.dx;
-    this.y += this.dy;
+    // this.x += this.dx;
+    // this.y += this.dy;
 
     // this.dx = 0; this.dy = 0;
     this.draw();
   }
 };
 
-document.addEventListener('click', function(event){
+var tester = {
+  // initialize random stats
+  x: 0,
+  y: 0,
+  w: 100,
+  h: 100,
+
+
+  draw: function() {
+    
+    // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+    
+    c.beginPath();
+    c.rect(this.x, this.y, this.w, this.h);
+    c.stroke();
+  },
+
+  update: function() {
+
+    // this.dx = 0; this.dy = 0;
+    this.draw();
+  }
+};
+
+canvas.addEventListener('click', function(event){
   if(!end) {
-    // detects position of click relative to sprite
-    if (petSprite.x > event.x - 60 && petSprite.x < event.x - 5 &&
-        petSprite.y > event.y - 145 && petSprite.y < event.y - 65) {
-        // slow down sprite on catch
-      if (petSprite.dx < 0) {
-        petSprite.dx += 2;
-      }
-      else if (petSprite.dx > 0) {
-        petSprite.dx -= 2;
-      }
-      if (petSprite.dy < 0) {
-        petSprite.dy += 2;
-      }
-      else if (petSprite.dy > 0) {
-        petSprite.dy -= 2;
-      }
-      // update score
-      score += 1;
-      document.getElementById('scoreboard-follow').textContent = `Score: ${score}`;
-    }
+    console.log(event, event.x, event.y, petSprite.x, petSprite.y);
+    tester.x = event.offsetX;
+    tester.y = event.offsetY;
+  
   }
 });
 
@@ -94,6 +102,7 @@ function animate() {
   }
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
+  tester.update();
   if (end) {
     return;
   }

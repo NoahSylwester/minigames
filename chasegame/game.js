@@ -65,10 +65,12 @@ var petSprite = {
 
 document.addEventListener('click', function(event){
   if(!end) {
+    console.log(petSprite.x, event.offsetX, petSprite.y, event.offsetY);
     // detects position of click relative to sprite
-    if (petSprite.x > event.x - 60 && petSprite.x < event.x - 5 &&
-        petSprite.y > event.y - 145 && petSprite.y < event.y - 65) {
+    if (event.offsetX > petSprite.x && event.offsetX < petSprite.x  + 40 &&
+        event.offsetY > petSprite.y && event.offsetY < petSprite.y + 160) {
         // slow down sprite on catch
+        console.log('got em');
       if (petSprite.dx < 0) {
         petSprite.dx += 2;
       }
