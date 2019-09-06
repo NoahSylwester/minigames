@@ -22,14 +22,25 @@ var petSprite = {
   y: Math.random() * 500,
   dx: (Math.random() - 0.5) * 1,
   dy: (Math.random() - 0.5) * 1,
+  counter: 0,
+  frame: 0,
+  animationRate: 5,
 
   img: document.querySelector('.pet-sprite-chaser'),
 
   draw: function() {
+    if (this.frame > 5){
+      this.frame = 0;
+    }
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-    c.drawImage(this.img, 20, 0, 25, 100, this.x, this.y, 40, 160);
+    c.drawImage(this.img, 24 * this.frame + (24 * 4), 0, 25, 100, this.x, this.y, 40, 160);
+    this.counter ++;
+    if (this.counter > this.animationRate) {
+      this.frame ++;
+      this.counter = 0;
+    }
   },
-  update: function () {
+  update: function() {
 
     // bounce off walls
     if (this.x > 465 || this.x < -15) {
