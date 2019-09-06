@@ -8,7 +8,7 @@ var c = canvas.getContext('2d');
 var end = false;
 
 var score = 0;
-var timeRemaining = 5;
+var timeRemaining = 30;
 var fruitAppearanceRate = .95; // fruit appears (100 - fruitAppearanceRate) percent of frames
 
 // build an array of possible fruits
@@ -27,7 +27,7 @@ var playerSprite = {
   x: 250,
   y: 479,
   dy: 0,
-  img: document.querySelector('.player-sprite'),
+  img: document.querySelector('.player-sprite-fruit'),
   draw: function() {
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 
@@ -76,16 +76,18 @@ function Fruit(x, y, spd) {
 
     // delete fruit when it hits ground
     if (this.y > 500) {
-      fruitsArray.splice(fruitsArray[this], 1);
+      fruitsArray.splice(fruitsArray.indexOf(this), 1);
+      return;
     }
     // if player catches fruit
     else if (this.y > playerSprite.y - 20 &&
             this.y < playerSprite.y + 20 &&
             this.x < playerSprite.x + 20 &&
             this.x > playerSprite.x - 10) {
-      fruitsArray.splice(fruitsArray[this], 1);
-      document.getElementById('scoreboard').textContent = `Score: ${score}`;
+      fruitsArray.splice(fruitsArray.indexOf(this), 1);
+      document.getElementById('scoreboard-fruit').textContent = `Score: ${score}`;
       score += 1;
+      return;
     }
 
     // redraw
@@ -144,7 +146,7 @@ function animate() {
 // set timer
 var timer = setInterval(function() {
   timeRemaining -= 1;
-  document.getElementById('timer').textContent = `Time remaining: ${timeRemaining}`;
+  document.getElementById('timer-fruit').textContent = `Time remaining: ${timeRemaining}`;
   
   // when time runs out
   if (timeRemaining === 0) {
