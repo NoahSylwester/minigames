@@ -20,8 +20,8 @@ var petSprite = {
   // initialize random stats
   x: Math.random() * 500,
   y: Math.random() * 500,
-  dx: (Math.random() - 0.5) * 10,
-  dy: (Math.random() - 0.5) * 10,
+  dx: (Math.random() - 0.5) * 1,
+  dy: (Math.random() - 0.5) * 1,
 
   img: document.querySelector('.pet-sprite-chaser'),
 
@@ -40,8 +40,8 @@ var petSprite = {
     }
 
     // add random movement component for unpredictability
-    // this.dx += (Math.random() - 0.5)/2;
-    // this.dy += (Math.random() - 0.5)/2;
+    this.dx += (Math.random() - 0.5)/2;
+    this.dy += (Math.random() - 0.5)/2;
 
     // update position from velocities
     this.x += this.dx;
