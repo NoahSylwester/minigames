@@ -31,8 +31,6 @@ var playerSprite = {
   img: document.querySelector('.player-sprite-fruit'),
   draw: function() {
 
-    // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-
     // move from user input
     if (keyDirection === "ArrowRight" && this.x < canvas.width - 30) {
       this.x += 5;
@@ -51,6 +49,7 @@ var playerSprite = {
       this.dy -= 1;
     }
 
+    // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
     c.drawImage(this.img, 20, 0, 25, 100, this.x, this.y, 25, 100);
   },
   update: function () {
