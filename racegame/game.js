@@ -11,37 +11,69 @@ var score = 0;
 var timeRemaining = 30;
 
 // set canvas dimensions
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 800;
+canvas.height = 200;
 
+var pinkMonster = {
+  x: 45,
+  y: 45,
+  dx: 0,
+  dy: 0,
+  counter: 0,
+  frame: 0,
+  animationRate: 5,
+
+  img: document.querySelector('.pink-monster-race'),
+
+  draw: function() {
+    if (this.frame > 5){
+      this.frame = 0;
+    }
+    // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+    c.drawImage(this.img, 32 * this.frame, 0, 25, 100, this.x, this.y, 40, 160);
+    this.counter ++;
+    if (this.counter > this.animationRate) {
+      this.frame ++;
+      this.counter = 0;
+    }
+  },
+  update: function () {
+
+    // update position from velocities
+    this.x += this.dx;
+    this.y += this.dy;
+
+    // this.dx = 0; this.dy = 0;
+    this.draw();
+  }
+};
 
 // define pet sprite
 var petSprite = {
-  // initialize random stats
-  x: Math.random() * 500,
-  y: Math.random() * 500,
-  dx: (Math.random() - 0.5) * 1,
-  dy: (Math.random() - 0.5) * 1,
+
+  x: 50,
+  y: 120,
+  dx: 0,
+  dy: 0,
+  counter: 0,
+  frame: 0,
+  animationRate: 5,
 
   img: document.querySelector('.pet-sprite-race'),
 
   draw: function() {
+    if (this.frame > 5){
+      this.frame = 0;
+    }
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-    c.drawImage(this.img, 20, 0, 25, 100, this.x, this.y, 40, 160);
+    c.drawImage(this.img, 24 * this.frame + (24 * 4), 0, 25, 100, this.x, this.y, 40, 160);
+    this.counter ++;
+    if (this.counter > this.animationRate) {
+      this.frame ++;
+      this.counter = 0;
+    }
   },
   update: function () {
-
-    // bounce off walls
-    if (this.x > 470 || this.x < 0) {
-      this.dx = -this.dx;
-    }
-    if (this.y > 480 || this.y < -5) {
-      this.dy = -this.dy;
-    }
-
-    // add random movement component for unpredictability
-    this.dx += (Math.random() - 0.5)/2;
-    this.dy += (Math.random() - 0.5)/2;
 
     // update position from velocities
     this.x += this.dx;
@@ -83,6 +115,7 @@ function animate() {
   }
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
+  pinkMonster.update();
   if (end) {
     return;
   }
