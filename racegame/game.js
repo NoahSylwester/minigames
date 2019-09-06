@@ -8,7 +8,7 @@ var c = canvas.getContext('2d');
 var end = false;
 
 var score = 0;
-var timeRemaining = 100;
+var timeRemaining = 50;
 
 var finishLine = 700;
 
