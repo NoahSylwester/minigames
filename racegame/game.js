@@ -10,6 +10,8 @@ var end = false;
 var score = 0;
 var timeRemaining = 100;
 
+var finishLine = 700;
+
 // set canvas dimensions
 canvas.width = 800;
 canvas.height = 200;
@@ -17,7 +19,7 @@ canvas.height = 200;
 var pinkMonster = {
   x: 45,
   y: 45,
-  dx: 0.2,
+  dx: 0.3,
   dy: 0,
   counter: 0,
   frame: 0,
@@ -159,10 +161,21 @@ function animate() {
   pinkMonster.update();
   promptText.update();
   c.beginPath();
-  c.moveTo(700, 0);
-  c.lineTo(700, 200);
+  c.moveTo(finishLine, 0);
+  c.lineTo(finishLine, 200);
   c.strokeStyle = "yellow";
   c.stroke();
+  if (petSprite.x > finishLine - 20) {
+    clearInterval(timer);
+    end = true;
+    score = timeRemaining + score;
+    document.getElementById('scoreboard-race').textContent = `Score: ${score}`;
+  }
+  if (pinkMonster.x > finishLine - 20) {
+    clearInterval(timer);
+    end = true;
+    document.getElementById('scoreboard-race').textContent = `LOSE`;
+  }
   if (end) {
     return;
   }
