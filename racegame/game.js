@@ -1,4 +1,4 @@
-// chaser game
+// race game
 
 // define canvas
 var canvas = document.querySelector('canvas');
@@ -20,10 +20,10 @@ var petSprite = {
   // initialize random stats
   x: Math.random() * 500,
   y: Math.random() * 500,
-  dx: (Math.random() - 0.5) * 10,
-  dy: (Math.random() - 0.5) * 10,
+  dx: (Math.random() - 0.5) * 1,
+  dy: (Math.random() - 0.5) * 1,
 
-  img: document.querySelector('.pet-sprite-chaser'),
+  img: document.querySelector('.pet-sprite-race'),
 
   draw: function() {
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
@@ -32,16 +32,16 @@ var petSprite = {
   update: function () {
 
     // bounce off walls
-    if (this.x > 465 || this.x < -15) {
+    if (this.x > 470 || this.x < 0) {
       this.dx = -this.dx;
     }
-    if (this.y > 468 || this.y < -5) {
+    if (this.y > 480 || this.y < -5) {
       this.dy = -this.dy;
     }
 
     // add random movement component for unpredictability
-    // this.dx += (Math.random() - 0.5)/2;
-    // this.dy += (Math.random() - 0.5)/2;
+    this.dx += (Math.random() - 0.5)/2;
+    this.dy += (Math.random() - 0.5)/2;
 
     // update position from velocities
     this.x += this.dx;
@@ -72,7 +72,7 @@ document.addEventListener('click', function(event){
       }
       // update score
       score += 1;
-      document.getElementById('scoreboard-chaser').textContent = `Score: ${score}`;
+      document.getElementById('scoreboard-race').textContent = `Score: ${score}`;
     }
   }
 });
@@ -92,7 +92,7 @@ function animate() {
 var timer = setInterval(function () {
   timeRemaining -= 1;
 
-  document.getElementById('timer-chaser').textContent = `Time remaining: ${timeRemaining}`;
+  document.getElementById('timer-race').textContent = `Time remaining: ${timeRemaining}`;
   
 
   // when time runs out
