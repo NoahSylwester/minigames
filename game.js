@@ -4,8 +4,11 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
+// set to true to end game
+var end = false;
+
 var score = 0;
-var timeRemaining = 30;
+var timeRemaining = 5;
 var fruitAppearanceRate = .95; // fruit appears (100 - fruitAppearanceRate) percent of frames
 
 // build an array of possible fruits
@@ -127,18 +130,26 @@ document.addEventListener("keyup", function(event) {
 
 // define animation function
 function animate() {
-  requestAnimationFrame(animate);
+  if (!end) {
+    requestAnimationFrame(animate);
+  }
   c.clearRect(0,0,innerWidth,innerHeight);
   generateFruit();
   playerSprite.draw();
+  if (end) {
+    return;
+  }
 }
 
 // set timer
 var timer = setInterval(function() {
   timeRemaining -= 1;
   document.getElementById('timer').textContent = `Time remaining: ${timeRemaining}`;
+  
+  // when time runs out
   if (timeRemaining === 0) {
     clearInterval(timer);
+    end = true;
   }
 }, 1000);
 
