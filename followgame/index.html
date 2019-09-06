@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Follow game</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      float: left;
+      background: rgb(174, 223, 255);
+    }
+  </style>
+</head>
+<body>
+  <h1 class="game-title">Follow game! <a href="../index.html">fruit</a><span> </span><span>chase</span><span> </span><a href="../racegame/index.html">race</a></h1>
+  <canvas></canvas>
+  <h1 id="scoreboard-follow">Score: 0</h1>
+  <h1 id="timer-follow">Time remaining: 30</h1>
+  <p>Your pet wants to be chased around! Click on your pet to catch them!</p>
+  <div style="display: none;">
+    <img class="pet-sprite-follow" src="../assets/DinoSprites - doux copy.png">
+  </div>
+  <script src="./game.js"></script>
+</body>
+</html>
