@@ -8,7 +8,7 @@ var c = canvas.getContext('2d');
 var end = false;
 
 var score = 0;
-var timeRemaining = 5000;
+var timeRemaining = 30;
 var fruitAppearanceRate = .95; // fruit appears (100 - fruitAppearanceRate) percent of frames
 
 // build an array of possible fruits
