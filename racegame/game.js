@@ -8,7 +8,7 @@ var c = canvas.getContext('2d');
 var end = false;
 
 var score = 0;
-var timeRemaining = 30;
+var timeRemaining = 100;
 
 // set canvas dimensions
 canvas.width = 800;
@@ -17,7 +17,7 @@ canvas.height = 200;
 var pinkMonster = {
   x: 45,
   y: 45,
-  dx: 0,
+  dx: 0.2,
   dy: 0,
   counter: 0,
   frame: 0,
@@ -77,37 +77,78 @@ var petSprite = {
 
     // update position from velocities
     this.x += this.dx;
-    this.y += this.dy;
+    if (this.dx > 0) {
+      this.dx -= 0.01;
+    }
+    else if (this.dx < 0) {
+      this.dx = 0;
+    };
 
     // this.dx = 0; this.dy = 0;
     this.draw();
   }
 };
 
-document.addEventListener('click', function(event){
+// define text prompt object
+var promptText = {
+//   ctx.font = "30px Arial";
+// ctx.fillText("Hello World", 10, 50);
+  x: petSprite.x + 40,
+  y: 145,
+  dx: 0,
+  dy: 0,
+
+  textOptions: ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", " "],
+  textChoice: "",
+  prompt: "",
+
+  draw: function() {
+    c.font = "20px Bookman";
+    c.fillText(this.prompt, this.x, this.y);
+  },
+
+  update: function () {
+
+    if (this.prompt === "") {
+      this.textChoice = this.textOptions[Math.floor(Math.random() * this.textOptions.length)];
+      // update prompt from choice
+      if (this.textChoice === "ArrowUp") {
+        this.prompt = "↑";
+      }
+      if (this.textChoice === "ArrowDown") {
+        this.prompt = "↓";
+      }
+      if (this.textChoice === "ArrowRight") {
+        this.prompt = "→";
+      }
+      if (this.textChoice === "ArrowLeft") {
+        this.prompt = "←";
+      }
+      if (this.textChoice === " ") {
+        this.prompt = "Space!";
+      }
+    }
+    // update position from velocities
+    this.x = petSprite.x + 40;
+    this.y += this.dy;
+
+    // this.dx = 0; this.dy = 0;
+    this.draw();
+  }
+}
+
+document.addEventListener('keydown', function(event){
   if(!end) {
-    // detects position of click relative to sprite
-    if (petSprite.x > event.x - 60 && petSprite.x < event.x - 5 &&
-        petSprite.y > event.y - 145 && petSprite.y < event.y - 65) {
-        // slow down sprite on catch
-      if (petSprite.dx < 0) {
-        petSprite.dx += 2;
-      }
-      else if (petSprite.dx > 0) {
-        petSprite.dx -= 2;
-      }
-      if (petSprite.dy < 0) {
-        petSprite.dy += 2;
-      }
-      else if (petSprite.dy > 0) {
-        petSprite.dy -= 2;
-      }
+      if (event.key === promptText.textChoice) {
+        promptText.prompt = "";
+        petSprite.dx += .25;
       // update score
       score += 1;
       document.getElementById('scoreboard-race').textContent = `Score: ${score}`;
+      }
     }
   }
-});
+);
 
 function animate() {
   if (!end) {
@@ -116,10 +157,17 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
   pinkMonster.update();
+  promptText.update();
+  c.beginPath();
+  c.moveTo(700, 0);
+  c.lineTo(700, 200);
+  c.strokeStyle = "yellow";
+  c.stroke();
   if (end) {
     return;
   }
-}
+};
+
 
 // set timer
 var timer = setInterval(function () {
