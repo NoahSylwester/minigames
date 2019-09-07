@@ -18,8 +18,7 @@ var possibleFruits = document.querySelectorAll('.fruit');
 canvas.width = 500;
 canvas.height = 500;
 
-// establish keyDirection variable to store user input
-var keyDirection = "";
+// establish key direction variables to store user input
 var isRight = false;
 var isLeft = false;
 var isJump = false;
