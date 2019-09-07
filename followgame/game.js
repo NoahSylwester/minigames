@@ -52,13 +52,15 @@ var petSprite = {
       this.dy = -this.dy;
     }
 
-    // move toward cursor
-    this.dx = (cursor.x - (this.x + 17))/70;
-    this.dy = (cursor.y - (this.y + 20))/70;
-
-    // add random movement component for unpredictability
-    // this.dx += (Math.random() - 0.5)/2;
-    // this.dy += (Math.random() - 0.5)/2;
+    // move toward cursor if pet has stamina
+    if (this.stamina !== 0) {
+      this.dx = (cursor.x - (this.x + 17))/70;
+      this.dy = (cursor.y - (this.y + 20))/70;
+    }
+    else {
+      this.dx = 0;
+      this.dy = 0;
+    };
 
     // update position from velocities
     this.x += this.dx;
@@ -97,15 +99,6 @@ var heart = {
     this.y = petSprite.y;
 
 
-    // add random movement component for unpredictability
-    // this.dx += (Math.random() - 0.5)/2;
-    // this.dy += (Math.random() - 0.5)/2;
-
-    // update position from velocities
-    // this.x += this.dx;
-    // this.y += this.dy;
-
-    // this.dx = 0; this.dy = 0;
     this.draw();
   }
 }
@@ -148,9 +141,26 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
   cursor.update();
+  // make heart appear
   if (cursor.x > petSprite.x && cursor.x < petSprite.x  + 40 &&
-    cursor.y > petSprite.y && cursor.y < petSprite.y + 160) {
+      cursor.y > petSprite.y && cursor.y < petSprite.y + 160) {
       heart.update();
+      if (petSprite.stamina < petSprite.maxStamina) {
+        petSprite.stamina += 1;
+      }
+      else if (petSprite.stamina > petSprite.maxStamina) {
+        petSprite.stamina = petSprite.maxStamina;
+      }
+      console.log(petSprite.stamina);
+  }
+  else {
+    if (petSprite.stamina > 0) {
+      petSprite.stamina -= .5;
+    }
+    else if (petSprite.stamina < 0) {
+      petSprite.stamina = 0;
+    }
+    console.log(petSprite.stamina);
   }
   if (end) {
     return;
