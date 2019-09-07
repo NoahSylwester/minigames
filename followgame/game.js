@@ -148,7 +148,10 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
   cursor.update();
-  heart.update();
+  if (cursor.x > petSprite.x && cursor.x < petSprite.x  + 40 &&
+    cursor.y > petSprite.y && cursor.y < petSprite.y + 160) {
+      heart.update();
+  }
   if (end) {
     return;
   }
