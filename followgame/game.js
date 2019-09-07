@@ -22,6 +22,8 @@ var petSprite = {
   y: Math.random() * 450,
   dx: 0,
   dy: 0,
+  stamina: 100,
+  maxStamina: 100,
   counter: 0,
   frame: 0,
   animationRate: 5,
@@ -51,8 +53,8 @@ var petSprite = {
     }
 
     // move toward cursor
-    this.dx = (cursor.x - (this.x + 17))/100;
-    this.dy = (cursor.y - (this.y + 20))/100;
+    this.dx = (cursor.x - (this.x + 17))/70;
+    this.dy = (cursor.y - (this.y + 20))/70;
 
     // add random movement component for unpredictability
     // this.dx += (Math.random() - 0.5)/2;
