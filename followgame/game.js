@@ -24,6 +24,8 @@ var petSprite = {
   dy: 0,
   stamina: 100,
   maxStamina: 100,
+  touching: false,
+  scoreStash: 0,
   counter: 0,
   frame: 0,
   animationRate: 5,
@@ -56,10 +58,21 @@ var petSprite = {
     if (this.stamina !== 0) {
       this.dx = (cursor.x - (this.x + 17))/70;
       this.dy = (cursor.y - (this.y + 20))/70;
+      if (!this.touching) {
+        // gain score potential
+        this.scoreStash += .05;
+      }
     }
     else {
       this.dx = 0;
       this.dy = 0;
+      // lose score potential
+      if (this.scoreStash > 0) {
+        this.scoreStash -= 1;
+      }
+      else {
+        this.scoreStash = 0;
+      }
     };
 
     // update position from velocities
@@ -141,26 +154,40 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
   cursor.update();
-  // make heart appear
+  // make heart appear, add score
   if (cursor.x > petSprite.x && cursor.x < petSprite.x  + 40 &&
       cursor.y > petSprite.y && cursor.y < petSprite.y + 160) {
       heart.update();
+      petSprite.touching = true;
+      // also take put scorestash into score
+      if (petSprite.scoreStash > 0) {
+        if (petSprite.scoreStash > 0) {
+          petSprite.scoreStash -= 1;
+          score += 1;
+        }
+        else {
+          petSprite.scoreStash = 0;
+        }
+        console.log(petSprite.scoreStash);
+        document.getElementById('scoreboard-follow').textContent = `Score: ${score}`;
+      };
+      // replenish pet stamina
       if (petSprite.stamina < petSprite.maxStamina) {
         petSprite.stamina += 1;
       }
       else if (petSprite.stamina > petSprite.maxStamina) {
         petSprite.stamina = petSprite.maxStamina;
       }
-      console.log(petSprite.stamina);
   }
   else {
+    // else deplete pet stamina
+    petSprite.touching = false;
     if (petSprite.stamina > 0) {
       petSprite.stamina -= .5;
     }
     else if (petSprite.stamina < 0) {
       petSprite.stamina = 0;
     }
-    console.log(petSprite.stamina);
   }
   if (end) {
     return;
