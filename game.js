@@ -20,37 +20,92 @@ canvas.height = 500;
 
 // establish keyDirection variable to store user input
 var keyDirection = "";
+var isRight = false;
+var isLeft = false;
 var isJump = false;
 
 // define player sprite object
 var playerSprite = {
   x: 250,
-  y: 479,
+  y: 467,
   dy: 0,
+
+  animationRate: 5,
+  // define animation state
+  animationState: {
+    // jogging is default mode
+      counter: 0,
+      frame: 0,
+      lastFrame: 5,
+      spriteSheetOffset: 4
+  },
+  // define all possible animation states
+  animationModes: {
+    standing: {
+      counter: 0,
+      frame: 0,
+      lastFrame: 4,
+      spriteSheetOffset: 0
+    },
+    jogging: {
+      counter: 0,
+      frame: 0,
+      lastFrame: 5,
+      spriteSheetOffset: 4
+    },
+    jumping: {
+      counter: 0,
+      frame: 0,
+      lastFrame: 2,
+      spriteSheetOffset: 10
+    }
+  }, 
 
   img: document.querySelector('.player-sprite-fruit'),
   draw: function() {
 
     // move from user input
-    if (keyDirection === "ArrowRight" && this.x < canvas.width - 30) {
+    if (isRight === true && this.x < canvas.width - 30) {
       this.x += 5;
     };
-    if (keyDirection === "ArrowLeft" && this.x > 0) {
+    if (isLeft === true && this.x > -6) {
       this.x -= 5;
     };
-    if (isJump === true && this.y === 479) {
+    if (isJump === true && this.y === 467) {
       this.dy = 10;
     };
+    // update y from dy
     this.y -= this.dy;
-    if (this.y > 479) {
-      this.y = 479;
+    // establish ground
+    if (this.y > 467) {
+      this.y = 467;
     }
-    if (this.y < 479) {
+    // establish gravity
+    else if (this.y < 467) {
       this.dy -= 1;
     }
 
+    // define conditions for each animation state
+    if (isJump) {
+      this.animationState = this.animationModes.jumping;
+    }
+    else if (!isRight && !isLeft) {
+      this.animationState = this.animationModes.standing;
+    }
+    else {
+      this.animationState = this.animationModes.jogging;
+    }
+    // execute sprite animations
+    if (this.animationState.frame > this.animationState.lastFrame) {
+      this.animationState.frame = 0;
+    }
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-    c.drawImage(this.img, 20, 0, 25, 100, this.x, this.y, 25, 100);
+    c.drawImage(this.img, 24 * this.animationState.frame + (24 * this.animationState.spriteSheetOffset), 0, 25, 100, this.x, this.y, 40, 160);
+    this.animationState.counter ++;
+    if (this.animationState.counter > this.animationRate) {
+      this.animationState.frame ++;
+      this.animationState.counter = 0;
+    }
   },
   update: function () {
 
@@ -86,7 +141,7 @@ function Fruit(x, y, spd) {
     // if player catches fruit
     else if (this.y > playerSprite.y - 20 &&
       this.y < playerSprite.y + 20 &&
-      this.x < playerSprite.x + 20 &&
+      this.x < playerSprite.x + 30 &&
       this.x > playerSprite.x - 10) {
       if (this.show) score += 1;
       this.show = false;
@@ -115,9 +170,12 @@ var fruitsArray = [];
 
 // interactivity
 document.addEventListener("keydown", function (event) {
-  if (event.key === "ArrowRight" ||
-    event.key === "ArrowLeft") {
-    keyDirection = event.key;
+  // log key-downs
+  if (event.key === "ArrowRight") {
+    isRight = true;
+  }
+  if (event.key === "ArrowLeft") {
+    isLeft = true;
   }
   if (event.key === "ArrowUp") {
     isJump = true;
@@ -125,9 +183,11 @@ document.addEventListener("keydown", function (event) {
 });
 
 document.addEventListener("keyup", function (event) {
-  if (event.key === "ArrowRight" && keyDirection === "ArrowRight" ||
-    event.key === "ArrowLeft" && keyDirection === "ArrowLeft") {
-    keyDirection = "";
+  if (event.key === "ArrowRight") {
+    isRight = false;
+  }
+  if (event.key === "ArrowLeft") {
+    isLeft = false;
   }
   if (event.key === "ArrowUp" && isJump === true) {
     isJump = false;
