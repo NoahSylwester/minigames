@@ -22,22 +22,62 @@ var petSprite = {
   y: Math.random() * 500,
   dx: (Math.random() - 0.5) * 1,
   dy: (Math.random() - 0.5) * 1,
-  counter: 0,
-  frame: 0,
   animationRate: 5,
+  // define animation state
+  animationState: {
+    // jogging is default mode
+      counter: 0,
+      frame: 0,
+      lastFrame: 5,
+      spriteSheetOffset: 4
+  },
+  // define all possible animation states
+  animationModes: {
+    standing: {
+      counter: 0,
+      frame: 0,
+      lastFrame: 4,
+      spriteSheetOffset: 0
+    },
+    jogging: {
+      counter: 0,
+      frame: 0,
+      lastFrame: 5,
+      spriteSheetOffset: 4
+    },
+    running: {
+      counter: 0,
+      frame: 0,
+      lastFrame: 6,
+      spriteSheetOffset: 17.1
+    }
+  },
 
   img: document.querySelector('.pet-sprite-chaser'),
 
   draw: function() {
-    if (this.frame > 5){
-      this.frame = 0;
+    // define conditions for each animation state
+    if (this.dx < 0.5 && this.dx > -0.5 &&
+        this.dy < 0.5 && this.dy > -0.5) {
+      this.animationState = this.animationModes.standing;
+    }
+    else if (this.dx > 3 || this.dx < -3 ||
+            this.dy > 3 || this.dy < -3) {
+      this.animationState = this.animationModes.running;
+    }
+    else {
+      this.animationState = this.animationModes.jogging;
+    }
+    // execute sprite animations
+    if (this.animationState.frame > this.animationState.lastFrame){
+      this.animationState.frame = 0;
     }
     // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-    c.drawImage(this.img, 24 * this.frame + (24 * 4), 0, 25, 100, this.x, this.y, 40, 160);
-    this.counter ++;
-    if (this.counter > this.animationRate) {
-      this.frame ++;
-      this.counter = 0;
+    c.drawImage(this.img, 24 * this.animationState.frame + (24 * this.animationState.spriteSheetOffset), 0, 25, 100, this.x, this.y, 40, 160);
+    this.animationState.counter ++;
+    if (this.animationState.counter > this.animationRate) {
+      this.animationState.frame ++;
+      this.animationState.counter = 0;
     }
   },
   update: function() {

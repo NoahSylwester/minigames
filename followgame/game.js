@@ -28,7 +28,7 @@ var petSprite = {
   scoreStash: 0,
   // speed of animation (higher is slower)
   animationRate: 5,
-  // define values of different animation states
+  // define animation state
   animationState: {
     // jogging is default mode
       counter: 0,
@@ -36,6 +36,7 @@ var petSprite = {
       lastFrame: 5,
       spriteSheetOffset: 4
   },
+  // define all possible animation states
   animationModes: {
     standing: {
       counter: 0,
@@ -53,7 +54,7 @@ var petSprite = {
       counter: 0,
       frame: 0,
       lastFrame: 6,
-      spriteSheetOffset: 17
+      spriteSheetOffset: 17.1
     }
   }, 
 
