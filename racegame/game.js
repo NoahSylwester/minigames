@@ -93,8 +93,7 @@ var petSprite = {
 
 // define text prompt object
 var promptText = {
-//   ctx.font = "30px Arial";
-// ctx.fillText("Hello World", 10, 50);
+
   x: petSprite.x + 40,
   y: 145,
   dx: 0,
@@ -143,11 +142,12 @@ document.addEventListener('keydown', function(event){
   if(!end) {
       if (event.key === promptText.textChoice) {
         promptText.prompt = "";
-        petSprite.dx += .25;
+        petSprite.dx += .3;
       // update score
       score += 1;
       document.getElementById('scoreboard-race').textContent = `Score: ${score}`;
       }
+      else {petSprite.dx = 0;}
     }
   }
 );
