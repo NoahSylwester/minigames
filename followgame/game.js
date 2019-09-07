@@ -138,7 +138,14 @@ var heart = {
       this.frame = 1;
     }
     this.img = document.querySelector(`.heart-sprite-follow${this.frame}`);
-    c.drawImage(this.img, this.x, this.y, 15, 15);
+    if (petSprite.scoreStash <= 0 && petSprite.stamina === petSprite.maxStamina) {
+      c.font = "13px Bookman";
+      c.fillText("!!!", this.x, this.y);
+    }
+    else {
+      console.log(petSprite.scoreStash);
+      c.drawImage(this.img, this.x, this.y, 15, 15);
+    }
     this.counter ++;
     if (this.counter > this.animationRate) {
       this.frame ++;
