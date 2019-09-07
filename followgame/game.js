@@ -69,6 +69,47 @@ var petSprite = {
   }
 };
 
+var heart = {
+  // initialize random stats
+  x: Math.random() * 460,
+  y: Math.random() * 450,
+  counter: 0,
+  frame: 1,
+  animationRate: 10,
+
+  img: document.querySelector('.heart-sprite-follow3'),
+
+  draw: function() {
+    if (this.frame > 3){
+      this.frame = 1;
+    }
+    this.img = document.querySelector(`.heart-sprite-follow${this.frame}`);
+    c.drawImage(this.img, this.x, this.y, 15, 15);
+    this.counter ++;
+    if (this.counter > this.animationRate) {
+      this.frame ++;
+      this.counter = 0;
+    }
+  },
+  update: function() {
+    // update based on player sprite location
+    this.x = petSprite.x + 30;
+    this.y = petSprite.y;
+
+
+    // add random movement component for unpredictability
+    // this.dx += (Math.random() - 0.5)/2;
+    // this.dy += (Math.random() - 0.5)/2;
+
+    // update position from velocities
+    // this.x += this.dx;
+    // this.y += this.dy;
+
+    // this.dx = 0; this.dy = 0;
+    this.draw();
+  }
+}
+
 var cursor = {
   // initialize random stats
   x: 0,
@@ -107,6 +148,7 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
   cursor.update();
+  heart.update();
   if (end) {
     return;
   }
