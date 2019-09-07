@@ -18,8 +18,8 @@ canvas.height = 500;
 // define pet sprite
 var petSprite = {
   // initialize random stats
-  x: Math.random() * 500,
-  y: Math.random() * 500,
+  x: Math.random() * 460,
+  y: Math.random() * 450,
   dx: 0,
   dy: 0,
   counter: 0,
@@ -50,25 +50,29 @@ var petSprite = {
       this.dy = -this.dy;
     }
 
+    // move toward cursor
+    this.dx = (cursor.x - (this.x + 17))/100;
+    this.dy = (cursor.y - (this.y + 20))/100;
+
     // add random movement component for unpredictability
-    this.dx += (Math.random() - 0.5)/2;
-    this.dy += (Math.random() - 0.5)/2;
+    // this.dx += (Math.random() - 0.5)/2;
+    // this.dy += (Math.random() - 0.5)/2;
 
     // update position from velocities
-    // this.x += this.dx;
-    // this.y += this.dy;
+    this.x += this.dx;
+    this.y += this.dy;
 
     // this.dx = 0; this.dy = 0;
     this.draw();
   }
 };
 
-var tester = {
+var cursor = {
   // initialize random stats
   x: 0,
   y: 0,
-  w: 100,
-  h: 100,
+  w: 0,
+  h: 0,
 
 
   draw: function() {
@@ -87,12 +91,10 @@ var tester = {
   }
 };
 
-canvas.addEventListener('click', function(event){
+canvas.addEventListener('mousemove', function(event){
   if(!end) {
-    console.log(event, event.x, event.y, petSprite.x, petSprite.y);
-    tester.x = event.offsetX;
-    tester.y = event.offsetY;
-  
+    cursor.x = event.offsetX;
+    cursor.y = event.offsetY;
   }
 });
 
@@ -102,7 +104,7 @@ function animate() {
   }
   c.clearRect(0, 0, innerWidth, innerHeight);
   petSprite.update();
-  tester.update();
+  cursor.update();
   if (end) {
     return;
   }
