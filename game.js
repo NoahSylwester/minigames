@@ -139,7 +139,7 @@ function Fruit(x, y, spd) {
     }
     // if player catches fruit
     else if (this.y > playerSprite.y - 20 &&
-      this.y < playerSprite.y + 20 &&
+      this.y < playerSprite.y + 30 &&
       this.x < playerSprite.x + 30 &&
       this.x > playerSprite.x - 10) {
       if (this.show) score += 1;
