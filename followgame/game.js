@@ -138,12 +138,13 @@ var heart = {
       this.frame = 1;
     }
     this.img = document.querySelector(`.heart-sprite-follow${this.frame}`);
+    // display exclamations when pet wants to run
     if (petSprite.scoreStash <= 0 && petSprite.stamina === petSprite.maxStamina) {
       c.font = "13px Bookman";
       c.fillText("!!!", this.x, this.y);
     }
+    // otherwise draw heart
     else {
-      console.log(petSprite.scoreStash);
       c.drawImage(this.img, this.x, this.y, 15, 15);
     }
     this.counter ++;
