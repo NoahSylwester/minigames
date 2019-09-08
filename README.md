@@ -7,5 +7,6 @@ https://noahsylwester.github.io/minigames/
 ## credits
 Credit to Mikkel Julian 'Arks' Petersen for dino sprites!
 ### website and twitter
-arksdesigns.com \n
+arksdesigns.com
+
 @ScissorMarks
